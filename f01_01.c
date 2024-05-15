@@ -7,7 +7,6 @@
 #include "libs/dorm.h"
 #include "libs/gender.h"
 
-
 #define MAX_STUDENTS 100
 #define MAX_DORMS 100
 
@@ -15,6 +14,7 @@ struct student_t students[MAX_STUDENTS];
 struct dorm_t dorms[MAX_DORMS];
 int student_count = 0;
 int dorm_count = 0;
+int isRunning = 1;
 
 void process_command(char *command) {
     if (strncmp(command, "student-add#", 12) == 0) {
@@ -48,10 +48,11 @@ void process_command(char *command) {
 int main() {
     char command[100];
 
-    while (fgets(command, sizeof(command), stdin)) {
+    // While the program is running and there are commands to process
+    while (isRunning && fgets(command, sizeof(command), stdin)) {
         command[strcspn(command, "\n")] = '\0'; // Remove newline character if present
-        process_command(command);
+        process_command(command); // Process the command
     }
 
-    return 0;
+    return 0; // Return 0 to indicate successful program execution
 }
