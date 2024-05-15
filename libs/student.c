@@ -50,3 +50,4 @@ void leave_student(struct student_t *student, struct dorm_t *dorm, char *token, 
         }
     }
 }
+ 

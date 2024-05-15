@@ -4,7 +4,7 @@
 #include "libs/student.h"
 #include "libs/dorm.h"
 #include "libs/gender.h"
-
+ 
 #define MAX_STUDENTS 100
 #define MAX_DORMS 100
 
