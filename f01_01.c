@@ -17,17 +17,25 @@ void process_command(char *command) {
     if (strcmp(command, "---") == 0) {
         exit(0);
     } else if (strncmp(command, "student-add#", 12) == 0) {
+        if (student_count >= MAX_STUDENTS) {
+            fprintf(stderr, "Maximum number of students reached.\n");
+            return;
+        }
         char id[20], name[50], year[5], gender[10];
         enum gender_t gender_enum;
         sscanf(command + 12, "%[^#]#%[^#]#%[^#]#%s", id, name, year, gender);
-        gender_enum = (strcmp(gender, "male") == 0) ? GENDER_MALE : GENDER_FEMALE;
+        gender_enum = (strcasecmp(gender, "male") == 0) ? GENDER_MALE : GENDER_FEMALE;
         students[student_count++] = create_student(id, name, year, gender_enum);
     } else if (strncmp(command, "dorm-add#", 9) == 0) {
+        if (dorm_count >= MAX_DORMS) {
+            fprintf(stderr, "Maximum number of dorms reached.\n");
+            return;
+        }
         char name[20], gender[10];
         unsigned short capacity;
         enum gender_t gender_enum;
         sscanf(command + 9, "%[^#]#%hu#%s", name, &capacity, gender);
-        gender_enum = (strcmp(gender, "male") == 0) ? GENDER_MALE : GENDER_FEMALE;
+        gender_enum = (strcasecmp(gender, "male") == 0) ? GENDER_MALE : GENDER_FEMALE;
         dorms[dorm_count++] = create_dorm(name, capacity, gender_enum);
     } else if (strncmp(command, "assign-student#", 15) == 0) {
         char id[20], dorm[20];

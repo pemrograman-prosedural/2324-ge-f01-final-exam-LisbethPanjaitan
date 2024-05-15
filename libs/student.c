@@ -18,9 +18,7 @@ struct student_t create_student(char *_id, char *_name, char *_year, enum gender
 
 void print_student(struct student_t *student, int tempshow)
 {
-    printf("%d", tempshow);
-    int j;
-    for (j = 0; j < tempshow; j++)
+    for (int j = 0; j < tempshow; j++)
     {
         printf("%s|%s|%s|", student[j].id, student[j].name, student[j].year);
         if (student[j].gender == GENDER_MALE)
@@ -36,9 +34,7 @@ void print_student(struct student_t *student, int tempshow)
 
 void print_student_details(struct student_t *student, int tempallshow)
 {
-    printf("%d", tempallshow);
-    int j = 0;
-    for (j = 0; j < tempallshow; j++)
+    for (int j = 0; j < tempallshow; j++)
     {
         printf("%s|%s|%s|", student[j].id, student[j].name, student[j].year);
         if (student[j].gender == GENDER_MALE)
@@ -62,88 +58,66 @@ void print_student_details(struct student_t *student, int tempallshow)
 
 void assign_student(struct student_t *student, struct dorm_t *dorm, char *nim, char *ldorm, int size_student, int size_dorm)
 {
-    int i;
-    int temp_dorm;
-    for (i = 0; i < size_dorm; i++)
+    struct dorm_t *target_dorm = NULL;
+    struct student_t *target_student = NULL;
+
+    for (int i = 0; i < size_dorm; i++)
     {
         if (strcmp(dorm[i].name, ldorm) == 0)
         {
-            temp_dorm = i;
+            target_dorm = &dorm[i];
+            break;
         }
     }
-    for (i = 0; i < size_student; i++)
+
+    if (target_dorm == NULL)
+        return;
+
+    for (int i = 0; i < size_student; i++)
     {
         if (strcmp(student[i].id, nim) == 0)
         {
-            if (dorm[temp_dorm].capacity > dorm[temp_dorm].residents_num)
-            {
-                student[i].dorm = malloc(1 * sizeof(struct dorm_t));
-                strcpy(student[i].dorm->name, ldorm);
-                dorm[temp_dorm].residents_num++;
-            }
+            target_student = &student[i];
+            break;
         }
     }
+
+    if (target_student == NULL || target_dorm->capacity <= target_dorm->residents_num)
+        return;
+
+    if (target_student->dorm != NULL)
+    {
+        leave_student(student, dorm, nim, size_student, size_dorm);
+    }
+
+    target_student->dorm = target_dorm;
+    target_dorm->residents_num++;
 }
 
 void move_student(struct student_t *student, struct dorm_t *dorm, char *nim, char *ldorm, int size_student, int size_dorm)
 {
-    int i;
-    int dorm_temp = 0;
-    int student_temp = 0;;
-    char dormname_temp[255];
-    for (i = 0; i < size_dorm; i++)
-    {
-        if (strcmp(dorm[i].name, ldorm) == 0)
-        {
-            dorm_temp = i;
-        }
-    }
-    for (i = 0; i < size_student; i++)
-    {
-        if (strcmp(student[i].id, nim) == 0)
-        {
-            student_temp = i;
-        }
-    }
-
-    if (student[student_temp].dorm != NULL)
-    {
-        strcpy(dormname_temp, student[student_temp].dorm->name);
-        for (i = 0; i < size_dorm; i++)
-        {
-            if (strcmp(dorm[i].name, dormname_temp) == 0)
-            {
-                dorm[i].residents_num--;
-                printf("%s--", dorm[i].name);
-            }
-        }
-    }
-    else
-    {
-        student[student_temp].dorm = malloc(1 * sizeof(struct dorm_t));
-    }
-    strcpy(student[student_temp].dorm->name, ldorm);
-    dorm[dorm_temp].residents_num++;
+    assign_student(student, dorm, nim, ldorm, size_student, size_dorm);
 }
 
 void leave_student(struct student_t *student, struct dorm_t *dorm, char *token, int temp_size_student, int temp_size_dorm)
 {
-    int i = 0;
-    char temp_dorm[255];
-    for (i = 0; i < temp_size_student; i++)
+    struct student_t *target_student = NULL;
+    struct dorm_t *current_dorm = NULL;
+
+    for (int i = 0; i < temp_size_student; i++)
     {
         if (strcmp(student[i].id, token) == 0)
         {
-            strcpy(temp_dorm, student[i].dorm->name);
-            strcpy(student[i].dorm->name, "left");
+            target_student = &student[i];
+            break;
         }
     }
 
-    for (i = 0; i < temp_size_dorm; i++)
-    {
-        if (strcmp(dorm[i].name, temp_dorm) == 0)
-        {
-            dorm[i].residents_num--;
-        }
-    }
+    if (target_student == NULL || target_student->dorm == NULL)
+        return;
+
+    current_dorm = target_student->dorm;
+
+    target_student->dorm = NULL;
+    current_dorm->residents_num--;
 }

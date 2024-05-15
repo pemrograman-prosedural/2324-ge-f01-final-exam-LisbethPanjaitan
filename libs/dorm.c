@@ -13,8 +13,7 @@ struct dorm_t create_dorm(char *_name, unsigned short _capacity, enum gender_t _
 
 void print_dorm(struct dorm_t *dorm, int tempshow)
 {
-    int j;
-    for (j = 0; j < tempshow; j++)
+    for (int j = 0; j < tempshow; j++)
     {
         printf("%s|%d|", dorm[j].name, dorm[j].capacity);
         if (dorm[j].gender == GENDER_MALE)
@@ -30,8 +29,7 @@ void print_dorm(struct dorm_t *dorm, int tempshow)
 
 void print_dorm_detail(struct dorm_t *dorm, int tempshow)
 {
-    int j;
-    for (j = 0; j < tempshow; j++)
+    for (int j = 0; j < tempshow; j++)
     {
         printf("%s|%d|", dorm[j].name, dorm[j].capacity);
         if (dorm[j].gender == GENDER_MALE)
