@@ -13,8 +13,17 @@ struct dorm_t dorms[MAX_DORMS];
 int student_count = 0;
 int dorm_count = 0;
 
+void free_resources() {
+    for (int i = 0; i < student_count; ++i) {
+        if (students[i].dorm != NULL) {
+            free(students[i].dorm);
+        }
+    }
+}
+
 void process_command(char *command) {
     if (strcmp(command, "---") == 0) {
+        free_resources();
         exit(0); // Terminate the program when '---' is received
     } else if (strncmp(command, "student-add#", 12) == 0) {
         char id[20], name[50], year[5], gender[10];
