@@ -1,8 +1,6 @@
-//12S23021- Lisbeth panjaitan
-//12S23021- Eunike purba
-
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> // Diperlukan untuk exit()
 #include "libs/student.h"
 #include "libs/dorm.h"
 #include "libs/gender.h"
@@ -14,10 +12,11 @@ struct student_t students[MAX_STUDENTS];
 struct dorm_t dorms[MAX_DORMS];
 int student_count = 0;
 int dorm_count = 0;
-int isRunning = 1;
 
 void process_command(char *command) {
-    if (strncmp(command, "student-add#", 12) == 0) {
+    if (strcmp(command, "---") == 0) {
+        exit(0);
+    } else if (strncmp(command, "student-add#", 12) == 0) {
         char id[20], name[50], year[5], gender[10];
         enum gender_t gender_enum;
         sscanf(command + 12, "%[^#]#%[^#]#%[^#]#%s", id, name, year, gender);
@@ -48,11 +47,10 @@ void process_command(char *command) {
 int main() {
     char command[100];
 
-    // While the program is running and there are commands to process
-    while (isRunning && fgets(command, sizeof(command), stdin)) {
+    while (fgets(command, sizeof(command), stdin)) {
         command[strcspn(command, "\n")] = '\0'; // Remove newline character if present
-        process_command(command); // Process the command
+        process_command(command);
     }
 
-    return 0; // Return 0 to indicate successful program execution
+    return 0;
 }
