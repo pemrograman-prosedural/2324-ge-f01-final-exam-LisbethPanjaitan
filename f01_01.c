@@ -1,3 +1,6 @@
+//12S23021- Lisbeth panjaitan
+//12S23021- Eunike purba
+
 #include <stdio.h>
 #include <string.h>
 #include "libs/student.h"
@@ -12,7 +15,6 @@ struct student_t students[MAX_STUDENTS];
 struct dorm_t dorms[MAX_DORMS];
 int student_count = 0;
 int dorm_count = 0;
-int running = 1;
 
 void process_command(char *command) {
     if (strncmp(command, "student-add#", 12) == 0) {
@@ -46,7 +48,7 @@ void process_command(char *command) {
 int main() {
     char command[100];
 
-    while (running && fgets(command, sizeof(command), stdin)) {
+    while (fgets(command, sizeof(command), stdin)) {
         command[strcspn(command, "\n")] = '\0'; // Remove newline character if present
         process_command(command);
     }

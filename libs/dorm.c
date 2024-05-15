@@ -1,4 +1,4 @@
-#include "dorm.h" 
+#include "dorm.h"
 
 struct dorm_t create_dorm(char *_name, unsigned short _capacity, enum gender_t _gender)
 {

@@ -1,4 +1,4 @@
-#include "student.h" 
+#include "student.h"
 
 struct student_t create_student(char *_id, char *_name, char *_year, enum gender_t _gender)
 {
