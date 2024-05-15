@@ -1,15 +1,11 @@
-#ifndef STUDENT_H
+#ifndef STUDENT_H 
 #define STUDENT_H
 
 #include "gender.h"
 #include "dorm.h"
-
-/**
- * @brief define your structure, enums, globally accessible variables, and function prototypes here.
- * The actual function implementation should be defined in the corresponding source file.
- *
- */
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 struct student_t
 {
     char id[12];
@@ -21,5 +17,9 @@ struct student_t
 
 struct student_t create_student(char *_id, char *_name, char *_year,
                                 enum gender_t _gender);
-
+void print_student_details(struct student_t *student, int tempallshow);
+void print_student(struct student_t *student, int tempshow);
+void move_student(struct student_t *student, struct dorm_t *dorm, char *nim, char *ldorm, int size_student, int size_dorm);
+void assign_student(struct student_t *student, struct dorm_t *dorm, char *nim, char *ldorm, int size_student, int size_dorm);
+void leave_student(struct student_t *student, struct dorm_t *dorm, char *token, int temp_size_student, int temp_size_dorm);
 #endif
