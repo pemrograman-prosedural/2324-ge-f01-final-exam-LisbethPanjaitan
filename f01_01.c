@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> // Diperlukan untuk exit()
+#include <stdlib.h>
 #include "libs/student.h"
 #include "libs/dorm.h"
 #include "libs/gender.h"
@@ -15,22 +15,14 @@ int dorm_count = 0;
 
 void process_command(char *command) {
     if (strcmp(command, "---") == 0) {
-        exit(0);
+        exit(0); // Terminate the program when '---' is received
     } else if (strncmp(command, "student-add#", 12) == 0) {
-        if (student_count >= MAX_STUDENTS) {
-            fprintf(stderr, "Maximum number of students reached.\n");
-            return;
-        }
         char id[20], name[50], year[5], gender[10];
         enum gender_t gender_enum;
         sscanf(command + 12, "%[^#]#%[^#]#%[^#]#%s", id, name, year, gender);
         gender_enum = (strcasecmp(gender, "male") == 0) ? GENDER_MALE : GENDER_FEMALE;
         students[student_count++] = create_student(id, name, year, gender_enum);
     } else if (strncmp(command, "dorm-add#", 9) == 0) {
-        if (dorm_count >= MAX_DORMS) {
-            fprintf(stderr, "Maximum number of dorms reached.\n");
-            return;
-        }
         char name[20], gender[10];
         unsigned short capacity;
         enum gender_t gender_enum;
@@ -55,9 +47,11 @@ void process_command(char *command) {
 int main() {
     char command[100];
 
-    while (fgets(command, sizeof(command), stdin)) {
-        command[strcspn(command, "\n")] = '\0'; // Remove newline character if present
-        process_command(command);
+    while (1) {
+        if (fgets(command, sizeof(command), stdin) != NULL) {
+            command[strcspn(command, "\n")] = '\0'; // Remove newline character if present
+            process_command(command);
+        }
     }
 
     return 0;
