@@ -19,7 +19,7 @@ void print_student_details(struct student_t *student, int tempallshow) {
     for (int j = 0; j < tempallshow; j++) {
         printf("%s|%s|%s|", student[j].id, student[j].name, student[j].year);
         printf(student[j].gender == GENDER_MALE ? "male|" : "female|");
-        printf(student[j].dorm ? "%s\n" : "left\n", student[j].dorm->name);
+        printf(student[j].dorm ? "%s\n" : "unassigned\n", student[j].dorm->name);
     }
 }
 
