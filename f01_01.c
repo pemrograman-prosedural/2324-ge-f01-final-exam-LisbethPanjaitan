@@ -14,11 +14,12 @@ int student_count = 0;
 int dorm_count = 0;
 
 void free_resources() {
-    for (int i = 0; i < student_count; ++i) {
-        if (students[i].dorm != NULL) {
-            free(students[i].dorm);
-        }
-    }
+    //for (int i = 0; i < student_count; ++i) {
+    //    if (students[i].dorm != NULL) {
+    //        free(students[i].dorm);
+    //    }
+    //}
+ free(dorms);
 }
 
 void process_command(char *command) {
